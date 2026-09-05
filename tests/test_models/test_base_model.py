@@ -2,6 +2,7 @@
 """Tests for the BaseModel class."""
 
 import unittest
+import time
 from datetime import datetime
 from models.base_model import BaseModel
 
@@ -50,6 +51,27 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(new_model.created_at, datetime)
         self.assertIsInstance(new_model.updated_at, datetime)
         self.assertIsNot(model, new_model)
+
+    def test_save(self):
+        """Test that save updates updated_at."""
+        model = BaseModel()
+        old_updated_at = model.updated_at
+        time.sleep(0.01)
+        model.save()
+
+        self.assertGreater(model.updated_at, old_updated_at)
+
+    def test_str(self):
+        """Test the string representation."""
+        model = BaseModel()
+
+        expected = "[{}] ({}) {}".format(
+            model.__class__.__name__,
+            model.id,
+            model.__dict__
+        )
+
+        self.assertEqual(str(model), expected)
 
 
 if __name__ == "__main__":
