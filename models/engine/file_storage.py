@@ -33,7 +33,7 @@ class FileStorage:
             json.dump(objects_dict, file)
 
     def reload(self):
-        """Deserialize objects from the JSON file."""
+        """Deserialize the JSON file to objects."""
         try:
             with open(self.__file_path, "r") as file:
                 objects_dict = json.load(file)
@@ -41,9 +41,21 @@ class FileStorage:
             return
 
         from models.base_model import BaseModel
+        from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.review import Review
 
         classes = {
-            "BaseModel": BaseModel
+            "BaseModel": BaseModel,
+            "User": User,
+            "Place": Place,
+            "State": State,
+            "City": City,
+            "Amenity": Amenity,
+            "Review": Review
         }
 
         for key, value in objects_dict.items():
